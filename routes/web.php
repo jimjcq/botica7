@@ -27,9 +27,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function(){
         return view('admin.users');
     });
 
-    // Products products
-    
-
     // Users users
     Route::get('users/', 'AdminController@users')->name('users');
     Route::get ('dtusers/', 'AdminController@dtusers')->name('dtusers');
