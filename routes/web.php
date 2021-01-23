@@ -50,6 +50,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function(){
     Route::get ('dtpromotions/', 'AdminController@dtpromotions')->name('dtpromotions');
     Route::post('savepromotions/', 'AdminController@savepromotions')->name('savepromotions');
     Route::get('deletepromotions/{id}', 'AdminController@deletepromotions')->name('deletepromotions');
+    
 });
 
 Route::get('/home', 'HomeController@index')->name('home');
