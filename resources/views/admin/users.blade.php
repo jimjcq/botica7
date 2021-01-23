@@ -16,7 +16,8 @@
         <thead>
         <tr class="bg-warning text-white">
             <th>Nombre</th>
-            <th>Estado</th>
+            <th>Email</th>
+            <th>Rol</th>
             <th>Operaciones</th>
         </tr>
         </thead>
@@ -41,19 +42,24 @@
             <input type="hidden" id="id" name="id">
             <div class="form-group">
               <label for="name">Nombre</label>
-              <input type="text" class="form-control" id="name" name="name" placeholder="Nombre">
+              <input type="text" class="form-control" id="name" name="name" placeholder="Escriba su nombre">
             </div>
             <div class="form-group">
-              <label for="">Descripción</label>
-              <textarea class="form-control" id="description" name="description" rows="3" placeholder="Descripción"></textarea>
+              <label for="name">Email</label>
+              <input type="text" class="form-control" id="email" name="email" placeholder="Escriba su email">
             </div>
             <div class="form-group">
-              <label for="abbreviation">Estado</label>
-              <select class="form-control" name="state" id="state" required>
-                <option value="1" selected>Activo</option>
-                <option value="0">Inactivo</option>
+              <label for="name">Password</label>
+              <input type="password" class="form-control" id="password" name="password" placeholder="Escriba su contraseña">
+            </div>
+            <div class="form-group">
+              <label for="abbreviation">Rol</label>
+              <select class="form-control" name="role" id="role" required>
+                <option value="0">Administrador</option>
+                <option value="1" selected>Vendedor</option>
               </select>
             </div>
+
           </form>
         </div>
         <div class="modal-footer">
@@ -69,9 +75,10 @@
 @section('css')
     <link rel="stylesheet" href="/css/admin_custom.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css">
-@stop
+    @stop
 
 @section('js')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script> console.log('Hi!'); </script>
     <script>
 
@@ -80,8 +87,9 @@
             $('#modal-title').html('Nuevo usuario');
             $('#id').val('');
             $('#name').val('');
-            $('#description').val('');
-            $('#state').val(1);
+            $('#email').val('');
+            $('#password').val('');
+            $('#role').val(1);
             $('#mdlform').modal('show');
         });
     
@@ -91,7 +99,7 @@
             'serverSide': true,
             'responsive': true,
             'ajax': {
-                'url': '{{route('dtcategories')}}',
+                'url': '{{route('dtusers')}}',
                 'type' : 'get',
             },
             'language': {
@@ -99,23 +107,24 @@
             },
             'columns': [
                 {data: 'name'},
+                {data: 'email'},
                 {
-                    data: 'state',
-                    render: function(data){
-                        if(data == 0)
-                            return '<span class="badge badge-danger">Inactivo</span>';
-                        else
-                            return '<span class="badge badge-success">Activo</span>';
-                    },
+                  data: 'role',
+                  render: function(data){
+                    if(data == 0)
+                      return 'Administrador';
+                    else
+                      return 'Vendedor';
+                  },
                 },
                 {data: null}
             ],
             'fnRowCallback': function(nRow, aData) {
                 let button = '';
                 button += '<button type="button" class="btn btn-secondary btn-xs edit"><i class="fa fa-edit"></i></button> &nbsp; &nbsp;';
-                button += '<button type="button" class="btn btn-danger btn-xs delete"><i class="fa fa-trash"></i></button>';
+                // button += '<button type="button" class="btn btn-danger btn-xs delete"><i class="fa fa-trash"></i></button>';
                 //console.log(aData, 'Datos');
-                $(nRow).find('td:eq(2)').html(button);
+                $(nRow).find('td:eq(3)').html(button);
             }
         });
 
@@ -125,7 +134,7 @@
             let data = $('#form').serialize();
             
             $.ajax({
-                url: '{{route('savecategories')}}',
+                url: '{{route('saveusers')}}',
                 type: 'post',
                 data: data + '&_token=' + '{{ csrf_token() }}',
                 'success': function(response) {
@@ -134,7 +143,7 @@
                     else
                         toastr.error('Se ha producido un error');
                     tb_data.ajax.reload();
-                    $('#mdlcountry').modal('hide');
+                    $('#mdlform').modal('hide');
                 }
             });
         });
@@ -162,8 +171,8 @@
             let data = tb_data.row( $(this).parents('tr') ).data();
             $('#id').val(data['id']);
             $('#name').val(data['name']);
-            $('#description').val(data['description']);
-            $('#state').val(data['state']);
+            $('#email').val(data['email']);
+            $('#role').val(data['role']);
             $('#mdlform').modal('show');
         });
 
