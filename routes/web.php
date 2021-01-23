@@ -14,9 +14,26 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('admin.index');
+    return view('welcome');
 });
 
 Auth::routes();
+
+Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function(){
+    Route::get('/', function () {
+        return view('admin.index');
+    });
+    Route::get('/users', function () {
+        return view('admin.users');
+    });
+
+
+    // Categories categories
+    Route::get('categories/', 'AdminController@categories')->name('categories');
+    Route::get ('dtcategories/', 'AdminController@dtcategories')->name('dtcategories');
+    Route::post('savecategories/', 'AdminController@savecategories')->name('savecategories');
+    Route::get('deletecategories/{id}', 'AdminController@deletecategories')->name('deletecategories');
+
+});
 
 Route::get('/home', 'HomeController@index')->name('home');
