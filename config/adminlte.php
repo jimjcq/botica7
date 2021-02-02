@@ -262,7 +262,11 @@ return [
             'url'  => 'admin/promotions',
             'icon' => 'fas fa-fw fa-lock',
         ],
-        
+        [
+            'text' => 'Servicios',
+            'url'  => 'admin/services',
+            'icon' => 'fas fa-fw fa-lock',
+        ],
 
         ['header' => 'REPORTES'],
         [
