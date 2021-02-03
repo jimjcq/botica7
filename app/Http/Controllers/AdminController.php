@@ -6,34 +6,75 @@ use Illuminate\Http\Request;
 use App\Category;
 use App\User;
 use App\Product;
+use App\Service;
+use App\Promotion;
 use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
+
+    // Services services
+    public function services(){
+        return view('admin.services');
+    }
+    public function dtservices(){
+        $services = Service::all();
+
+        return datatables()->of(
+            $services
+        )->toJson();
+    }
+    public function saveservices(Request $request){
+        try {
+            if($request->id == null || $request->id == ''){
+                $service = new Service();
+            }else{
+                $service = Service::find($request->id);
+            }
+
+            $service->name = $request->name;
+            $service->description = $request->description;
+            $service->price = $request->price;
+            $service->state = $request->state;
+            $service->save();
+
+            return response()->json(true);
+
+        }catch (Exception $e){
+            return response()->json(false);
+        }
+    }
+    public function deleteservices($id)
+    {
+        $service = Service::find($id);
+        $service->state = 0;
+        $service->save();
+        return response()->json(true);
+    }
 
     // Promotions promotions
     public function promotions(){
         return view('admin.promotions');
     }
     public function dtpromotions(){
-        $categories = Category::all();
+        $promotions = Promotion::all();
 
         return datatables()->of(
-            $categories
+            $promotions
         )->toJson();
     }
     public function savepromotions(Request $request){
         try {
             if($request->id == null || $request->id == ''){
-                $category = new Category();
+                $promotion = new Promotion();
             }else{
-                $category = Category::find($request->id);
+                $promotion = Promotion::find($request->id);
             }
 
-            $category->name = $request->name;
-            $category->description = $request->description;
-            $category->state = $request->state;
-            $category->save();
+            $promotion->name = $request->name;
+            $promotion->description = $request->description;
+            $promotion->state = $request->state;
+            $promotion->save();
 
             return response()->json(true);
 
@@ -43,9 +84,9 @@ class AdminController extends Controller
     }
     public function deletepromotions($id)
     {
-        $category = category::find($id);
-        $category->state = 0;
-        $category->save();
+        $promotion = Promotion::find($id);
+        $promotion->state = 0;
+        $promotion->save();
         return response()->json(true);
     }
 
@@ -164,7 +205,7 @@ class AdminController extends Controller
     }
     public function deletecategories($id)
     {
-        $category = category::find($id);
+        $category = Category::find($id);
         $category->state = 0;
         $category->save();
         return response()->json(true);

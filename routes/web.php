@@ -51,6 +51,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth']], function(){
     Route::post('savepromotions/', 'AdminController@savepromotions')->name('savepromotions');
     Route::get('deletepromotions/{id}', 'AdminController@deletepromotions')->name('deletepromotions');
     
+    // Services services
+    Route::get('services/', 'AdminController@services')->name('services');
+    Route::get ('dtservices/', 'AdminController@dtservices')->name('dtservices');
+    Route::post('saveservices/', 'AdminController@saveservices')->name('saveservices');
+    Route::get('deleteservices/{id}', 'AdminController@deleteservices')->name('deleteservices');
+    
 });
 
 Route::get('/home', 'HomeController@index')->name('home');

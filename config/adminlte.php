@@ -250,22 +250,22 @@ return [
         [
             'text' => 'Categorias',
             'url'  => 'admin/categories',
-            'icon' => 'fas fa-fw fa-lock',
+            'icon' => 'fas fa-boxes',
         ],
         [
             'text' => 'Productos',
             'url'  => 'admin/products',
-            'icon' => 'fas fa-fw fa-users',
+            'icon' => 'fas fa-box',
         ],
         [
             'text' => 'Promociones',
             'url'  => 'admin/promotions',
-            'icon' => 'fas fa-fw fa-lock',
+            'icon' => 'fas fa-tags',
         ],
         [
             'text' => 'Servicios',
             'url'  => 'admin/services',
-            'icon' => 'fas fa-fw fa-lock',
+            'icon' => 'fas fa-handshake',
         ],
 
         ['header' => 'REPORTES'],
